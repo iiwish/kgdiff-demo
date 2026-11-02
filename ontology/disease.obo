@@ -1,6 +1,6 @@
 format-version: 1.4
-data-version: 2026-09-01
-date: 01:09:2026 09:00
+data-version: 2026-10-01
+date: 01:10:2026 09:00
 saved-by: mhd-release-bot
 subsetdef: mhd_slim "MHD high-level slim"
 synonymtypedef: abbreviation "abbreviation" EXACT
@@ -9,7 +9,7 @@ ontology: mhd
 property_value: http://purl.org/dc/elements/1.1/title "Mini Human Disease Ontology" xsd:string
 property_value: http://purl.org/dc/terms/license https://creativecommons.org/publicdomain/zero/1.0/
 remark: The Mini Human Disease Ontology (MHD) is a small teaching ontology written for the kgdiff examples. Identifiers are fictional; cross-references point to real vocabularies for realism and are not curated for clinical use.
-remark: Release 2026-09-01.
+remark: Release 2026-10-01.
 
 [Term]
 id: MHD:0000001
@@ -192,25 +192,26 @@ name: myocardial infarction
 namespace: disease
 def: "A coronary artery disease characterized by necrosis of myocardial tissue caused by prolonged ischemia." [MHD:curators]
 synonym: "MI" EXACT abbreviation []
+synonym: "heart attack" EXACT []
 xref: DOID:5844
 xref: ICD10CM:I21
+xref: ICD10CM:I21.9
 xref: MESH:D009203
 is_a: MHD:0000017 ! coronary artery disease
 relationship: located_in MHD:0001016 ! myocardium
 relationship: has_symptom MHD:0002003 ! chest pain
 relationship: has_symptom MHD:0002010 ! dyspnea
+relationship: has_symptom MHD:0002030 ! nausea
 
 [Term]
 id: MHD:0000019
-name: heart attack
+name: obsolete heart attack
 namespace: disease
-def: "A coronary artery disease in which blood flow to part of the heart muscle is blocked." [MHD:curators]
+def: "OBSOLETE. A coronary artery disease in which blood flow to part of the heart muscle is blocked." [MHD:curators]
+comment: Duplicate of MHD:0000018 (myocardial infarction). Merged in release 2026-10-01; "heart attack" is now an exact synonym of the replacement term.
 synonym: "cardiac infarction" RELATED []
-xref: ICD10CM:I21.9
-is_a: MHD:0000017 ! coronary artery disease
-relationship: located_in MHD:0001015 ! heart
-relationship: has_symptom MHD:0002003 ! chest pain
-relationship: has_symptom MHD:0002030 ! nausea
+is_obsolete: true
+replaced_by: MHD:0000018
 
 [Term]
 id: MHD:0000020
@@ -324,12 +325,12 @@ relationship: located_in MHD:0001021 ! bronchus
 id: MHD:0000030
 name: asthma
 namespace: disease
-def: "A bronchial disease characterized by chronic airway inflammation and reversible airflow obstruction." [MHD:curators]
+def: "A bronchial disease characterized by chronic airway inflammation, variable expiratory airflow limitation and respiratory symptoms such as wheeze, shortness of breath, chest tightness and cough that vary over time and in intensity." [MHD:curators]
 synonym: "bronchial asthma" EXACT []
 xref: DOID:2841
 xref: ICD10CM:J45
 xref: MESH:D001249
-xref: SNOMEDCT_US_2025_09_01:195967001
+xref: SNOMEDCT_US_2026_03_01:195967001
 is_a: MHD:0000029 ! bronchial disease
 relationship: has_symptom MHD:0002009 ! cough
 relationship: has_symptom MHD:0002010 ! dyspnea
@@ -342,23 +343,25 @@ namespace: disease
 def: "A lung disease characterized by persistent respiratory symptoms and airflow limitation." [MHD:curators]
 synonym: "COPD" EXACT abbreviation []
 synonym: "chronic obstructive lung disease" EXACT []
+synonym: "chronic obstructive airway disease" EXACT []
+synonym: "COAD" EXACT abbreviation []
 xref: DOID:3083
 xref: ICD10CM:J44
 xref: MESH:D029424
 is_a: MHD:0000028 ! lung disease
 relationship: has_symptom MHD:0002009 ! cough
 relationship: has_symptom MHD:0002010 ! dyspnea
+relationship: has_symptom MHD:0002011 ! wheezing
 
 [Term]
 id: MHD:0000032
-name: chronic obstructive airway disease
+name: obsolete chronic obstructive airway disease
 namespace: disease
-def: "A lung disease characterized by chronic obstruction of airflow through the airways." [MHD:curators]
+def: "OBSOLETE. A lung disease characterized by chronic obstruction of airflow through the airways." [MHD:curators]
+comment: Duplicate of MHD:0000031 (chronic obstructive pulmonary disease). Merged in release 2026-10-01.
 synonym: "COAD" EXACT abbreviation []
-xref: ICD10CM:J44.9
-is_a: MHD:0000028 ! lung disease
-relationship: has_symptom MHD:0002010 ! dyspnea
-relationship: has_symptom MHD:0002011 ! wheezing
+is_obsolete: true
+replaced_by: MHD:0000031
 
 [Term]
 id: MHD:0000033
@@ -423,7 +426,7 @@ synonym: "TB" EXACT abbreviation []
 xref: DOID:399
 xref: ICD10CM:A15
 xref: MESH:D014376
-is_a: MHD:0000028 ! lung disease
+is_a: MHD:0000047 ! bacterial infectious disease
 relationship: has_symptom MHD:0002009 ! cough
 relationship: has_symptom MHD:0002012 ! hemoptysis
 relationship: has_symptom MHD:0002016 ! weight loss
@@ -526,6 +529,7 @@ synonym: "coronavirus disease 2019" EXACT []
 synonym: "2019 novel coronavirus infection" EXACT []
 xref: DOID:0080600
 xref: ICD10CM:U07.1
+xref: ICD11:RA01
 xref: MESH:D000086382
 is_a: MHD:0000048 ! viral infectious disease
 relationship: has_symptom MHD:0002009 ! cough
@@ -575,10 +579,11 @@ is_a: MHD:0000008 ! nervous system disease
 
 [Term]
 id: MHD:0000056
-name: Alzheimer's disease
+name: Alzheimer disease
 namespace: disease
 def: "A neurodegenerative disease characterized by progressive memory loss and cognitive decline, with extracellular amyloid-beta plaques and intracellular tau tangles." [MHD:curators]
 synonym: "AD" EXACT abbreviation []
+synonym: "Alzheimer's disease" EXACT []
 xref: DOID:10652
 xref: ICD10CM:G30
 xref: MESH:D000544
@@ -633,7 +638,6 @@ name: migraine
 namespace: disease
 def: "A nervous system disease characterized by recurrent attacks of moderate to severe headache, often with nausea and sensitivity to light." [MHD:curators]
 synonym: "migraine disorder" EXACT []
-synonym: "headache" RELATED []
 xref: DOID:6364
 xref: ICD10CM:G43
 xref: MESH:D008881
@@ -661,12 +665,17 @@ namespace: disease
 def: "A diabetes mellitus caused by autoimmune destruction of the insulin-producing beta cells of the pancreatic islets." [MHD:curators]
 synonym: "T1DM" EXACT abbreviation []
 synonym: "type I diabetes" EXACT []
+synonym: "juvenile diabetes" EXACT []
+synonym: "insulin-dependent diabetes mellitus" EXACT []
+synonym: "IDDM" EXACT abbreviation []
 xref: DOID:9744
 xref: ICD10CM:E10
+xref: ICD11:5A10
 xref: MESH:D003922
 is_a: MHD:0000061 ! diabetes mellitus
 is_a: MHD:0000076 ! autoimmune disease
 relationship: located_in MHD:0001032 ! islet of Langerhans
+relationship: has_symptom MHD:0002016 ! weight loss
 
 [Term]
 id: MHD:0000063
@@ -677,45 +686,44 @@ synonym: "T2DM" EXACT abbreviation []
 synonym: "adult-onset diabetes" RELATED []
 xref: DOID:9352
 xref: ICD10CM:E11
+xref: ICD11:5A11
 xref: MESH:D003924
 is_a: MHD:0000061 ! diabetes mellitus
 
 [Term]
 id: MHD:0000064
-name: juvenile diabetes
+name: obsolete juvenile diabetes
 namespace: disease
-def: "A diabetes mellitus with onset in childhood that requires insulin treatment." [MHD:curators]
+def: "OBSOLETE. A diabetes mellitus with onset in childhood that requires insulin treatment." [MHD:curators]
+comment: Duplicate of MHD:0000062 (type 1 diabetes mellitus). Merged in release 2026-10-01.
 synonym: "juvenile-onset diabetes" EXACT []
-xref: ICD10CM:E10.9
-is_a: MHD:0000061 ! diabetes mellitus
-relationship: has_symptom MHD:0002016 ! weight loss
+is_obsolete: true
+replaced_by: MHD:0000062
 
 [Term]
 id: MHD:0000065
-name: insulin-dependent diabetes mellitus
+name: obsolete insulin-dependent diabetes mellitus
 namespace: disease
-def: "A diabetes mellitus in which survival depends on exogenous insulin." [MHD:curators]
+def: "OBSOLETE. A diabetes mellitus in which survival depends on exogenous insulin." [MHD:curators]
+comment: Duplicate of MHD:0000062 (type 1 diabetes mellitus). Merged in release 2026-10-01.
 synonym: "IDDM" EXACT abbreviation []
-xref: UMLS:C0011854
-is_a: MHD:0000061 ! diabetes mellitus
-relationship: located_in MHD:0001032 ! islet of Langerhans
+is_obsolete: true
+replaced_by: MHD:0000062
 
 [Term]
 id: MHD:0000067
-name: diabetes insipidus
+name: obsolete diabetes insipidus
 namespace: disease
-def: "A pituitary gland disease characterized by the excretion of large volumes of dilute urine." [MHD:curators]
+def: "OBSOLETE. A pituitary gland disease characterized by the excretion of large volumes of dilute urine." [MHD:curators]
+comment: Split in release 2026-10-01: its two forms, previously NARROW synonyms, are now terms named after the 2022 international nomenclature. Consider MHD:0000204 (arginine vasopressin deficiency) or MHD:0000205 (arginine vasopressin resistance).
 synonym: "DI" EXACT abbreviation []
 synonym: "central diabetes insipidus" NARROW []
 synonym: "nephrogenic diabetes insipidus" NARROW []
 synonym: "arginine vasopressin deficiency" NARROW []
 synonym: "arginine vasopressin resistance" NARROW []
-xref: DOID:9409
-xref: MESH:D003919
-is_a: MHD:0000075 ! pituitary gland disease
-relationship: has_symptom MHD:0002034 ! polyuria
-relationship: has_symptom MHD:0002035 ! polydipsia
-relationship: has_symptom MHD:0002048 ! nocturia
+is_obsolete: true
+consider: MHD:0000204
+consider: MHD:0000205
 
 [Term]
 id: MHD:0000068
@@ -771,7 +779,7 @@ synonym: "Hashimoto's disease" EXACT []
 xref: DOID:7188
 xref: ICD10CM:E06.3
 xref: MESH:D050031
-is_a: MHD:0000069 ! hypothyroidism
+is_a: MHD:0000071 ! autoimmune thyroid disease
 relationship: has_symptom MHD:0002043 ! goiter
 
 [Term]
@@ -790,12 +798,12 @@ relationship: has_symptom MHD:0002043 ! goiter
 [Term]
 id: MHD:0000074
 name: hyperglycemia
-namespace: disease
-def: "An abnormally high concentration of glucose in the blood." [MHD:curators]
+namespace: phenotype
+def: "An abnormal blood glucose concentration above the normal range." [MHD:curators]
 synonym: "high blood sugar" EXACT []
 xref: HP:0003074
 xref: MESH:D006943
-is_a: MHD:0000005 ! disease of metabolism
+is_a: MHD:0002046 ! abnormal blood glucose concentration
 
 [Term]
 id: MHD:0000075
@@ -837,9 +845,12 @@ relationship: located_in MHD:0001033 ! liver
 
 [Term]
 id: MHD:0000079
-name: fatty liver disease
+name: steatotic liver disease
 namespace: disease
-def: "A liver disease characterized by accumulation of triglycerides in hepatocytes." [MHD:curators]
+def: "A liver disease characterized by hepatic steatosis, with fat accumulation in at least 5% of hepatocytes; umbrella term for MASLD, MetALD, alcohol-related and other steatotic liver diseases." [MHD:curators]
+comment: Renamed from "fatty liver disease" in release 2026-10-01 to align with the 2023 steatotic liver disease nomenclature.
+synonym: "fatty liver disease" EXACT []
+synonym: "SLD" EXACT abbreviation []
 synonym: "hepatic steatosis" RELATED []
 synonym: "steatosis of liver" RELATED []
 xref: DOID:9452
@@ -848,35 +859,40 @@ is_a: MHD:0000078 ! liver disease
 
 [Term]
 id: MHD:0000080
-name: non-alcoholic fatty liver disease
+name: metabolic dysfunction-associated steatotic liver disease
 namespace: disease
-def: "A fatty liver disease that occurs in people who drink little or no alcohol." [MHD:curators]
+def: "A steatotic liver disease in a person with at least one cardiometabolic risk factor and no other discernible cause of steatosis." [MHD:curators]
+synonym: "MASLD" EXACT abbreviation []
+synonym: "non-alcoholic fatty liver disease" EXACT []
 synonym: "NAFLD" EXACT abbreviation []
 xref: DOID:0080208
 xref: ICD10CM:K76.0
 xref: MESH:D065626
-is_a: MHD:0000079 ! fatty liver disease
+is_a: MHD:0000079 ! steatotic liver disease
 
 [Term]
 id: MHD:0000081
-name: non-alcoholic steatohepatitis
+name: metabolic dysfunction-associated steatohepatitis
 namespace: disease
 def: "A non-alcoholic fatty liver disease with hepatocellular injury and lobular inflammation." [MHD:curators]
+synonym: "MASH" EXACT abbreviation []
+synonym: "non-alcoholic steatohepatitis" EXACT []
 synonym: "NASH" EXACT abbreviation []
 xref: DOID:0080547
 xref: ICD10CM:K75.81
-is_a: MHD:0000080 ! non-alcoholic fatty liver disease
+is_a: MHD:0000080 ! metabolic dysfunction-associated steatotic liver disease
 is_a: MHD:0000077 ! hepatitis
 
 [Term]
 id: MHD:0000082
-name: alcoholic liver disease
+name: alcohol-related liver disease
 namespace: disease
 def: "A liver disease caused by chronic excessive alcohol consumption." [MHD:curators]
+synonym: "alcoholic liver disease" EXACT []
 synonym: "ALD" EXACT abbreviation []
 xref: ICD10CM:K70
 xref: MESH:D008108
-is_a: MHD:0000078 ! liver disease
+is_a: MHD:0000079 ! steatotic liver disease
 
 [Term]
 id: MHD:0000083
@@ -885,7 +901,7 @@ namespace: disease
 def: "An alcoholic liver disease characterized by acute inflammation and necrosis of the liver." [MHD:curators]
 xref: ICD10CM:K70.1
 xref: MESH:D006519
-is_a: MHD:0000082 ! alcoholic liver disease
+is_a: MHD:0000082 ! alcohol-related liver disease
 is_a: MHD:0000077 ! hepatitis
 relationship: has_symptom MHD:0002033 ! jaundice
 
@@ -933,7 +949,7 @@ synonym: "regional enteritis" EXACT []
 xref: DOID:8778
 xref: ICD10CM:K50
 xref: MESH:D003424
-is_a: MHD:0000085 ! intestinal disease
+is_a: MHD:0000086 ! inflammatory bowel disease
 relationship: located_in MHD:0001036 ! small intestine
 relationship: has_symptom MHD:0002031 ! diarrhea
 relationship: has_symptom MHD:0002005 ! abdominal pain
@@ -996,11 +1012,12 @@ relationship: located_in MHD:0001038 ! kidney
 id: MHD:0000093
 name: chronic kidney disease
 namespace: disease
-def: "A kidney disease characterized by a gradual loss of kidney function over months or years." [MHD:curators]
+def: "A kidney disease defined by abnormalities of kidney structure or function, present for more than three months, with implications for health." [MHD:curators]
 synonym: "CKD" EXACT abbreviation []
 synonym: "chronic renal failure" RELATED []
 xref: DOID:784
 xref: ICD10CM:N18
+xref: ICD11:GB61
 xref: MESH:D051436
 is_a: MHD:0000092 ! kidney disease
 relationship: has_symptom MHD:0002015 ! fatigue
@@ -1085,6 +1102,70 @@ xref: ICD10CM:D50
 xref: MESH:D018798
 is_a: MHD:0000102 ! anemia
 relationship: has_symptom MHD:0002015 ! fatigue
+
+[Term]
+id: MHD:0000201
+name: metabolic dysfunction and alcohol-related liver disease
+namespace: disease
+def: "A steatotic liver disease in a person with MASLD who also has increased alcohol intake (140–350 g/week for women, 210–420 g/week for men)." [MHD:curators]
+synonym: "MetALD" EXACT abbreviation []
+is_a: MHD:0000079 ! steatotic liver disease
+created_by: https://orcid.org/0000-0002-1825-0097
+creation_date: 2026-09-22T14:05:11Z
+
+[Term]
+id: MHD:0000202
+name: cryptogenic steatotic liver disease
+namespace: disease
+def: "A steatotic liver disease without cardiometabolic risk factors, increased alcohol intake or another identifiable cause." [MHD:curators]
+is_a: MHD:0000079 ! steatotic liver disease
+created_by: https://orcid.org/0000-0002-1825-0097
+creation_date: 2026-09-22T14:05:11Z
+
+[Term]
+id: MHD:0000203
+name: arginine vasopressin disorder
+namespace: disease
+def: "An endocrine system disease caused by deficient secretion of, or renal resistance to, arginine vasopressin, resulting in hypotonic polyuria." [MHD:curators]
+synonym: "AVP disorder" EXACT []
+is_a: MHD:0000010 ! endocrine system disease
+created_by: https://orcid.org/0000-0002-1825-0097
+creation_date: 2026-09-22T14:05:11Z
+
+[Term]
+id: MHD:0000204
+name: arginine vasopressin deficiency
+namespace: disease
+def: "An arginine vasopressin disorder caused by insufficient synthesis or release of arginine vasopressin by the hypothalamus and posterior pituitary." [MHD:curators]
+synonym: "central diabetes insipidus" EXACT []
+synonym: "AVP-D" EXACT abbreviation []
+synonym: "diabetes insipidus" RELATED []
+xref: ICD10CM:E23.2
+is_a: MHD:0000203 ! arginine vasopressin disorder
+is_a: MHD:0000075 ! pituitary gland disease
+relationship: located_in MHD:0001029 ! pituitary gland
+relationship: has_symptom MHD:0002034 ! polyuria
+relationship: has_symptom MHD:0002035 ! polydipsia
+relationship: has_symptom MHD:0002048 ! nocturia
+created_by: https://orcid.org/0000-0002-1825-0097
+creation_date: 2026-09-22T14:05:11Z
+
+[Term]
+id: MHD:0000205
+name: arginine vasopressin resistance
+namespace: disease
+def: "An arginine vasopressin disorder in which the kidneys fail to concentrate urine in response to arginine vasopressin." [MHD:curators]
+synonym: "nephrogenic diabetes insipidus" EXACT []
+synonym: "AVP-R" EXACT abbreviation []
+synonym: "diabetes insipidus" RELATED []
+xref: ICD10CM:N25.1
+is_a: MHD:0000203 ! arginine vasopressin disorder
+is_a: MHD:0000092 ! kidney disease
+relationship: has_symptom MHD:0002034 ! polyuria
+relationship: has_symptom MHD:0002035 ! polydipsia
+relationship: has_symptom MHD:0002048 ! nocturia
+created_by: https://orcid.org/0000-0002-1825-0097
+creation_date: 2026-09-22T14:05:11Z
 
 [Term]
 id: MHD:0001001
@@ -1549,6 +1630,8 @@ name: dyspnea
 namespace: phenotype
 def: "A respiratory symptom consisting of a subjective sensation of difficult or labored breathing." [MHD:curators]
 synonym: "dyspnoea" EXACT []
+synonym: "shortness of breath" EXACT []
+synonym: "breathlessness" RELATED []
 xref: HP:0002094
 is_a: MHD:0002008 ! respiratory symptom
 

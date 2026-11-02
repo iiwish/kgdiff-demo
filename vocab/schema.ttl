@@ -1,4 +1,4 @@
-# A slice of a schema.org-style vocabulary, release vocab-2026.09.
+# A slice of a schema.org-style vocabulary, release vocab-2026.10.
 # Example data for kgdiff (CC0-1.0). Modelled on the kinds of changes schema.org releases make;
 # not an actual schema.org release. Deprecations use owl:deprecated + IAO:0100001 (term replaced by).
 
@@ -36,7 +36,7 @@ schema:NewsArticle
 
 schema:ScholarlyArticle
     a rdfs:Class ;
-    rdfs:label "Scholarly artcle"@en, "学术论文"@zh ;
+    rdfs:label "Scholarly article"@en, "学术论文"@zh ;
     rdfs:comment "An article written for an academic audience, usually peer reviewed." ;
     rdfs:subClassOf schema:Article .
 
@@ -44,7 +44,19 @@ schema:BlogPosting
     a rdfs:Class ;
     rdfs:label "Blog posting"@en, "博客文章"@zh ;
     rdfs:comment "An entry published on a blog." ;
+    rdfs:subClassOf schema:SocialMediaPosting .
+
+schema:SocialMediaPosting
+    a rdfs:Class ;
+    rdfs:label "Social media posting"@en, "社交媒体帖子"@zh ;
+    rdfs:comment "A post published on a social or community platform, including blog entries and forum messages." ;
     rdfs:subClassOf schema:Article .
+
+schema:DiscussionForumPosting
+    a rdfs:Class ;
+    rdfs:label "Discussion forum posting"@en, "论坛帖子"@zh ;
+    rdfs:comment "A message posted to an online discussion forum." ;
+    rdfs:subClassOf schema:SocialMediaPosting .
 
 schema:Book
     a rdfs:Class ;
@@ -67,7 +79,7 @@ schema:MusicRecording
 schema:Dataset
     a rdfs:Class ;
     rdfs:label "Dataset"@en, "数据集"@zh ;
-    rdfs:comment "A collection of structured data about one or more topics." ;
+    rdfs:comment "A collection of structured data about one or more topics, published as a unit with one or more distributions." ;
     rdfs:subClassOf schema:CreativeWork .
 
 schema:SoftwareApplication
@@ -85,8 +97,10 @@ schema:SoftwareSourceCode
 schema:Code
     a rdfs:Class ;
     rdfs:label "Code"@en ;
-    rdfs:comment "Program text, such as a snippet or a complete program." ;
-    rdfs:subClassOf schema:CreativeWork .
+    rdfs:comment "Program text, such as a snippet or a complete program. Deprecated: use SoftwareSourceCode." ;
+    rdfs:subClassOf schema:CreativeWork ;
+    owl:deprecated true ;
+    obo:IAO_0100001 schema:SoftwareSourceCode .
 
 schema:WebPage
     a rdfs:Class ;
@@ -98,7 +112,11 @@ schema:Review
     a rdfs:Class ;
     rdfs:label "Review"@en, "评论"@zh ;
     rdfs:comment "An assessment of something, such as a book, a product or a restaurant." ;
-    rdfs:subClassOf schema:CreativeWork .
+    rdfs:subClassOf schema:CreativeWork, [
+        a owl:Restriction ;
+        owl:onProperty schema:itemReviewed ;
+        owl:someValuesFrom schema:Thing
+    ] .
 
 schema:Comment
     a rdfs:Class ;
@@ -115,12 +133,14 @@ schema:Organization
 schema:Corporation
     a rdfs:Class ;
     rdfs:label "Corporation"@en, "公司"@zh ;
+    skos:altLabel "Company"@en ;
     rdfs:comment "A company incorporated as a legal entity." ;
     rdfs:subClassOf schema:Organization .
 
 schema:NGO
     a rdfs:Class ;
-    rdfs:label "NGO"@en, "非政府组织"@zh ;
+    rdfs:label "Non-governmental organization"@en, "非政府组织"@zh ;
+    skos:altLabel "NGO"@en ;
     rdfs:comment "An organization that operates independently of any government." ;
     rdfs:subClassOf schema:Organization .
 
@@ -142,11 +162,23 @@ schema:LocalBusiness
     rdfs:comment "A business, or one branch of it, that serves customers at a physical location, for example a shop, a bank branch or a clinic." ;
     rdfs:subClassOf schema:Organization, schema:Place .
 
+schema:FoodEstablishment
+    a rdfs:Class ;
+    rdfs:label "Food establishment"@en, "餐饮场所"@zh ;
+    rdfs:comment "A business that prepares or serves food or drink." ;
+    rdfs:subClassOf schema:LocalBusiness .
+
+schema:CafeOrCoffeeShop
+    a rdfs:Class ;
+    rdfs:label "Cafe or coffee shop"@en, "咖啡馆"@zh ;
+    rdfs:comment "A small establishment serving coffee, tea and light meals." ;
+    rdfs:subClassOf schema:FoodEstablishment .
+
 schema:Restaurant
     a rdfs:Class ;
     rdfs:label "Restaurant"@en, "餐厅"@zh ;
     rdfs:comment "A business that prepares and serves meals." ;
-    rdfs:subClassOf schema:LocalBusiness .
+    rdfs:subClassOf schema:FoodEstablishment .
 
 schema:Store
     a rdfs:Class ;
@@ -166,10 +198,16 @@ schema:Place
     rdfs:comment "A location with a more or less fixed physical extent." ;
     rdfs:subClassOf schema:Thing .
 
+schema:VirtualLocation
+    a rdfs:Class ;
+    rdfs:label "Virtual location"@en, "线上地点"@zh ;
+    rdfs:comment "A location that exists only online, such as a video-conference room or a live stream." ;
+    rdfs:subClassOf schema:Intangible .
+
 schema:Event
     a rdfs:Class ;
     rdfs:label "Event"@en, "事件"@zh ;
-    rdfs:comment "Something that happens at a given time and place, such as a concert, a lecture or a festival." ;
+    rdfs:comment "Something that happens at a given time and place, such as a concert, a lecture or a festival. Recurring events are described as one Event per occurrence." ;
     rdfs:subClassOf schema:Thing .
 
 schema:BusinessEvent
@@ -348,9 +386,11 @@ schema:employee
 schema:employees
     a rdf:Property ;
     rdfs:label "employees"@en ;
-    rdfs:comment "People employed by the organization." ;
+    rdfs:comment "People employed by the organization. Deprecated: use employee, which is repeatable." ;
     schema:domainIncludes schema:Organization ;
-    schema:rangeIncludes schema:Person .
+    schema:rangeIncludes schema:Person ;
+    owl:deprecated true ;
+    obo:IAO_0100001 schema:employee .
 
 schema:founder
     a rdf:Property ;
@@ -378,7 +418,7 @@ schema:location
     rdfs:label "location"@en ;
     rdfs:comment "Where the event takes place or where the organization is based." ;
     schema:domainIncludes schema:Event, schema:Organization ;
-    schema:rangeIncludes schema:Place, schema:PostalAddress, schema:Text .
+    schema:rangeIncludes schema:Place, schema:PostalAddress, schema:Text, schema:VirtualLocation .
 
 schema:startDate
     a rdf:Property ;
@@ -411,8 +451,8 @@ schema:price
 schema:servesCuisine
     a rdf:Property ;
     rdfs:label "serves cuisine"@en ;
-    rdfs:comment "The style of food the restaurant serves." ;
-    schema:domainIncludes schema:Restaurant ;
+    rdfs:comment "The style of food the establishment serves." ;
+    schema:domainIncludes schema:FoodEstablishment ;
     schema:rangeIncludes schema:Text .
 
 schema:numberOfPages
